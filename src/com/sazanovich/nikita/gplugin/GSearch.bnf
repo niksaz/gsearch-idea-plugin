@@ -1,0 +1,20 @@
+{
+    parserClass="com.sazanovich.nikita.gplugin.parser.GParser"
+
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    psiClassPrefix="G"
+    psiImplClassSuffix="Impl"
+    psiPackage="com.sazanovich.nikita.gplugin.psi"
+    psiImplPackage="com.sazanovich.nikita.gplugin.psi.impl"
+
+    elementTypeHolderClass="com.sazanovich.nikita.gplugin.psi.GTypes"
+    elementTypeClass="com.sazanovich.nikita.gplugin.psi.GElementType"
+    tokenTypeClass="com.sazanovich.nikita.gplugin.psi.GTokenType"
+}
+
+GSearch ::= item_*
+
+private item_ ::= (query | COMMENT | CRLF)
+
+query ::= ('"' VALUE '"')
