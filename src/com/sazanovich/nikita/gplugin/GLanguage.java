@@ -7,6 +7,6 @@ public class GLanguage extends Language {
     public static final GLanguage INSTANCE = new GLanguage();
 
     private GLanguage() {
-        super("Google Search Language");
+        super("Google Search Query Language");
     }
 }
