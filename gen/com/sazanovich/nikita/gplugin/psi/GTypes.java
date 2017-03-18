@@ -11,8 +11,8 @@ public interface GTypes {
   IElementType QUERY = new GElementType("QUERY");
 
   IElementType COMMENT = new GTokenType("COMMENT");
-  IElementType CRLF = new GTokenType("CRLF");
-  IElementType VALUE = new GTokenType("VALUE");
+  IElementType DEFINE = new GTokenType("DEFINE");
+  IElementType TEXT = new GTokenType("TEXT");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {

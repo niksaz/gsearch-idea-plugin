@@ -50,28 +50,27 @@ public class GParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // query | COMMENT | CRLF
+  // query | COMMENT
   static boolean item_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "item_")) return false;
+    if (!nextTokenIs(b, "", COMMENT, DEFINE)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = query(b, l + 1);
     if (!r) r = consumeToken(b, COMMENT);
-    if (!r) r = consumeToken(b, CRLF);
     exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
-  // '"' VALUE '"'
+  // DEFINE TEXT
   public static boolean query(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "query")) return false;
+    if (!nextTokenIs(b, DEFINE)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, QUERY, "<query>");
-    r = consumeToken(b, "\"");
-    r = r && consumeToken(b, VALUE);
-    r = r && consumeToken(b, "\"");
-    exit_section_(b, l, m, r, false, null);
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, DEFINE, TEXT);
+    exit_section_(b, m, QUERY, r);
     return r;
   }
 

@@ -15,6 +15,6 @@
 
 GSearch ::= item_*
 
-private item_ ::= (query | COMMENT | CRLF)
+private item_ ::= (query | COMMENT)
 
-query ::= ('"' VALUE '"')
+query ::= (DEFINE TEXT)

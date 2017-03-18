@@ -21,6 +21,7 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <fileTypeFactory implementation="com.sazanovich.nikita.gplugin.GFileTypeFactory" />
+    <lang.parserDefinition language="Google Search Language" implementationClass="com.sazanovich.nikita.gplugin.GParserDefinition" />
   </extensions>
 
   <actions>
