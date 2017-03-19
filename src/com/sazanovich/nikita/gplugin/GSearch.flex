@@ -15,24 +15,24 @@ import com.intellij.psi.TokenType;
 %eof{ return;
 %eof}
 
-CRLF = [\r\n]
-WHITE_SPACE = [\ \t\f\r\n]
-TEXT_CHARACTER = [^\r\n]
-END_OF_LINE_COMMENT = ("!")[^\r\n]*
-DEFINE = "define:"
+LineTerminator = \r|\n|\r\n
+WhiteSpace = [ \t]
+AnySpace = {LineTerminator} | {WhiteSpace} | [\f]
+
+InputCharacter = [^\ \t\r\n\f]
+Comment = ("!")[^(\r|\n|\r\n)]*
+
+Or = "OR"
 
 %state AFTER_DEFINE
 
 %%
 
-<YYINITIAL> {END_OF_LINE_COMMENT}                           { yybegin(YYINITIAL); return GTypes.COMMENT; }
+<YYINITIAL> {
+    {Comment}           { yybegin(YYINITIAL); return GTypes.COMMENT; }
+    {Or}                { yybegin(YYINITIAL); return GTypes.OR; }
+    {InputCharacter}+   { yybegin(YYINITIAL); return GTypes.QUERY; }
+    {AnySpace}+         { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
+}
 
-<YYINITIAL> {DEFINE}                                        { yybegin(AFTER_DEFINE); return GTypes.DEFINE; }
-
-<AFTER_DEFINE> {TEXT_CHARACTER}*                            { yybegin(YYINITIAL); return GTypes.TEXT; }
-
-<AFTER_DEFINE> {CRLF}                                       { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
-
-{WHITE_SPACE}+                                              { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
-
-.                                                           { return TokenType.BAD_CHARACTER; }
+.                       { return TokenType.BAD_CHARACTER; }

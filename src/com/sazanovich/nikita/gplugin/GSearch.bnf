@@ -15,6 +15,10 @@
 
 GSearch ::= item_*
 
-private item_ ::= (query | COMMENT)
+private item_ ::= (term | COMMENT)
 
-query ::= (DEFINE TEXT)
+term ::= or_term | and_term | query
+
+or_term ::= (term OR term)
+
+and_term ::= (term term)

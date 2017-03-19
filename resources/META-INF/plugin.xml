@@ -25,11 +25,14 @@
     <lang.parserDefinition
       language="Google Search Query Language"
       implementationClass="com.sazanovich.nikita.gplugin.GParserDefinition" />
+
     <lang.syntaxHighlighterFactory
       language="Google Search Query Language"
       implementationClass="com.sazanovich.nikita.gplugin.GSyntaxHighlighterFactory" />
+    <!---
     <colorSettingsPage
       implementation="com.sazanovich.nikita.gplugin.GColorSettingsPage" />
+      -->
   </extensions>
 
   <actions>

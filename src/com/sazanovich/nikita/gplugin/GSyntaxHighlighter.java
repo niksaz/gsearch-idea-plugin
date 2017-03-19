@@ -14,17 +14,17 @@ import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAtt
 
 public class GSyntaxHighlighter extends SyntaxHighlighterBase {
 
-    public static final TextAttributesKey DEFINE =
+    public static final TextAttributesKey KEYWORD =
             createTextAttributesKey("G_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
-    public static final TextAttributesKey TEXT =
+    public static final TextAttributesKey QUERY =
             createTextAttributesKey("G_VALUE", DefaultLanguageHighlighterColors.STRING);
     public static final TextAttributesKey COMMENT =
             createTextAttributesKey("G_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
     public static final TextAttributesKey BAD_CHARACTER =
             createTextAttributesKey("G_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
 
-    private static final TextAttributesKey[] DEFINE_KEYS = new TextAttributesKey[]{DEFINE};
-    private static final TextAttributesKey[] TEXT_KEYS = new TextAttributesKey[]{TEXT};
+    private static final TextAttributesKey[] KEYWORD_KEYS = new TextAttributesKey[]{KEYWORD};
+    private static final TextAttributesKey[] QUERY_KEYS = new TextAttributesKey[]{QUERY};
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT};
     private static final TextAttributesKey[] BAD_CHARACTER_KEYS = new TextAttributesKey[]{BAD_CHARACTER};
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
@@ -38,10 +38,10 @@ public class GSyntaxHighlighter extends SyntaxHighlighterBase {
     @NotNull
     @Override
     public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
-        if (tokenType.equals(GTypes.DEFINE)) {
-            return DEFINE_KEYS;
-        } else if (tokenType.equals(GTypes.TEXT)) {
-            return TEXT_KEYS;
+        if (tokenType.equals(GTypes.OR)) {
+            return KEYWORD_KEYS;
+        } else if (tokenType.equals(GTypes.TERM)) {
+            return QUERY_KEYS;
         } else if (tokenType.equals(GTypes.COMMENT)) {
             return COMMENT_KEYS;
         } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {

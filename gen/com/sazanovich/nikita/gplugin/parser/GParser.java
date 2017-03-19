@@ -23,8 +23,14 @@ public class GParser implements PsiParser, LightPsiParser {
     boolean r;
     b = adapt_builder_(t, b, this, null);
     Marker m = enter_section_(b, 0, _COLLAPSE_, null);
-    if (t == QUERY) {
-      r = query(b, 0);
+    if (t == AND_TERM) {
+      r = and_term(b, 0);
+    }
+    else if (t == OR_TERM) {
+      r = or_term(b, 0);
+    }
+    else if (t == TERM) {
+      r = term(b, 0);
     }
     else {
       r = parse_root_(t, b, 0);
@@ -50,27 +56,56 @@ public class GParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // query | COMMENT
-  static boolean item_(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "item_")) return false;
-    if (!nextTokenIs(b, "", COMMENT, DEFINE)) return false;
+  // term term
+  public static boolean and_term(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "and_term")) return false;
+    if (!nextTokenIs(b, QUERY)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = query(b, l + 1);
+    r = term(b, l + 1);
+    r = r && term(b, l + 1);
+    exit_section_(b, m, AND_TERM, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // term | COMMENT
+  static boolean item_(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "item_")) return false;
+    if (!nextTokenIs(b, "", COMMENT, QUERY)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = term(b, l + 1);
     if (!r) r = consumeToken(b, COMMENT);
     exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
-  // DEFINE TEXT
-  public static boolean query(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "query")) return false;
-    if (!nextTokenIs(b, DEFINE)) return false;
+  // term OR term
+  public static boolean or_term(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "or_term")) return false;
+    if (!nextTokenIs(b, QUERY)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, DEFINE, TEXT);
-    exit_section_(b, m, QUERY, r);
+    r = term(b, l + 1);
+    r = r && consumeToken(b, OR);
+    r = r && term(b, l + 1);
+    exit_section_(b, m, OR_TERM, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // or_term | and_term | query
+  public static boolean term(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "term")) return false;
+    if (!nextTokenIs(b, QUERY)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = or_term(b, l + 1);
+    if (!r) r = and_term(b, l + 1);
+    if (!r) r = consumeToken(b, QUERY);
+    exit_section_(b, m, TERM, r);
     return r;
   }
 
