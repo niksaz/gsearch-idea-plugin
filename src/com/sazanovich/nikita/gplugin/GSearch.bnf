@@ -11,14 +11,15 @@
     elementTypeHolderClass="com.sazanovich.nikita.gplugin.psi.GTypes"
     elementTypeClass="com.sazanovich.nikita.gplugin.psi.GElementType"
     tokenTypeClass="com.sazanovich.nikita.gplugin.psi.GTokenType"
+
+    tokens=[
+    ]
 }
 
 GSearch ::= item_*
 
 private item_ ::= (term | COMMENT)
 
-term ::= or_term | and_term | query
+term ::= TILDE_OP term | MINUS_OP term | quote_phrase | query
 
-or_term ::= (term OR term)
-
-and_term ::= (term term)
+quote_phrase ::= QUOTE term QUOTE

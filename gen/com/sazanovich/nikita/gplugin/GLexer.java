@@ -54,8 +54,8 @@ class GLexer implements FlexLexer {
 
   /* The ZZ_CMAP_A table has 320 entries */
   static final char ZZ_CMAP_A[] = zzUnpackCMap(
-    "\11\0\1\2\1\1\1\10\1\3\1\1\22\0\1\2\1\4\6\0\2\5\45\0\1\6\2\0\1\7\51\0\1\5"+
-    "\10\0\1\10\242\0\2\10\26\0");
+    "\11\0\1\2\1\1\1\11\1\3\1\1\22\0\1\2\1\4\1\10\5\0\2\5\3\0\1\7\116\0\1\5\1\0"+
+    "\1\6\6\0\1\11\242\0\2\11\26\0");
 
   /** 
    * Translates DFA states to action switch labels.
@@ -63,10 +63,11 @@ class GLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\2\0\1\1\1\2\1\3\1\1\1\4\1\3\1\5";
+    "\2\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7"+
+    "\1\3";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[9];
+    int [] result = new int[10];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -91,11 +92,11 @@ class GLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\11\0\22\0\33\0\44\0\55\0\66\0\77"+
-    "\0\22";
+    "\0\0\0\12\0\24\0\36\0\50\0\24\0\24\0\24"+
+    "\0\62\0\74";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[9];
+    int [] result = new int[10];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -118,14 +119,13 @@ class GLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\3\3\4\1\5\1\3\1\6\2\3\1\7\1\0"+
-    "\1\7\1\0\4\7\1\0\1\3\3\0\5\3\1\0"+
-    "\3\4\5\0\1\5\1\0\2\10\1\5\1\3\3\5"+
-    "\1\3\3\0\3\3\1\11\1\3\11\0\1\10\1\0"+
-    "\3\10\1\0\3\10";
+    "\1\3\3\4\1\5\1\3\1\6\1\7\1\10\1\3"+
+    "\1\11\1\0\1\11\1\0\5\11\1\0\1\3\3\0"+
+    "\6\3\1\0\3\4\6\0\1\5\1\0\2\12\1\5"+
+    "\1\3\4\5\12\0\1\12\1\0\3\12\1\0\4\12";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[72];
+    int [] result = new int[70];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -163,10 +163,10 @@ class GLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\2\0\4\1\1\11\2\1";
+    "\2\0\6\1\1\11\1\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[9];
+    int [] result = new int[10];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -482,23 +482,31 @@ class GLexer implements FlexLexer {
           case 1: 
             { yybegin(YYINITIAL); return GTypes.QUERY;
             }
-          case 6: break;
+          case 8: break;
           case 2: 
             { yybegin(YYINITIAL); return TokenType.WHITE_SPACE;
             }
-          case 7: break;
+          case 9: break;
           case 3: 
             { yybegin(YYINITIAL); return GTypes.COMMENT;
             }
-          case 8: break;
+          case 10: break;
           case 4: 
+            { yybegin(YYINITIAL); return GTypes.TILDE_OP;
+            }
+          case 11: break;
+          case 5: 
+            { yybegin(YYINITIAL); return GTypes.MINUS_OP;
+            }
+          case 12: break;
+          case 6: 
+            { yybegin(YYINITIAL); return GTypes.QUOTE;
+            }
+          case 13: break;
+          case 7: 
             { return TokenType.BAD_CHARACTER;
             }
-          case 9: break;
-          case 5: 
-            { yybegin(YYINITIAL); return GTypes.OR;
-            }
-          case 10: break;
+          case 14: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

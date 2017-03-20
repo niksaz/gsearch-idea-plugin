@@ -14,8 +14,10 @@ import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAtt
 
 public class GSyntaxHighlighter extends SyntaxHighlighterBase {
 
-    public static final TextAttributesKey KEYWORD =
+    public static final TextAttributesKey OPERATOR =
             createTextAttributesKey("G_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
+    public static final TextAttributesKey QUOTE =
+            createTextAttributesKey("G_QUOTE", DefaultLanguageHighlighterColors.BRACKETS);
     public static final TextAttributesKey QUERY =
             createTextAttributesKey("G_VALUE", DefaultLanguageHighlighterColors.STRING);
     public static final TextAttributesKey COMMENT =
@@ -23,7 +25,8 @@ public class GSyntaxHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey BAD_CHARACTER =
             createTextAttributesKey("G_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
 
-    private static final TextAttributesKey[] KEYWORD_KEYS = new TextAttributesKey[]{KEYWORD};
+    private static final TextAttributesKey[] OPERATOR_KEYS = new TextAttributesKey[]{OPERATOR};
+    private static final TextAttributesKey[] QUOTE_KEYS = new TextAttributesKey[]{QUOTE};
     private static final TextAttributesKey[] QUERY_KEYS = new TextAttributesKey[]{QUERY};
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT};
     private static final TextAttributesKey[] BAD_CHARACTER_KEYS = new TextAttributesKey[]{BAD_CHARACTER};
@@ -38,8 +41,10 @@ public class GSyntaxHighlighter extends SyntaxHighlighterBase {
     @NotNull
     @Override
     public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
-        if (tokenType.equals(GTypes.OR)) {
-            return KEYWORD_KEYS;
+        if (tokenType.equals(GTypes.TILDE_OP) || tokenType.equals(GTypes.MINUS_OP)) {
+            return OPERATOR_KEYS;
+        } else if (tokenType.equals(GTypes.QUOTE)) {
+            return QUOTE_KEYS;
         } else if (tokenType.equals(GTypes.TERM)) {
             return QUERY_KEYS;
         } else if (tokenType.equals(GTypes.COMMENT)) {

@@ -23,6 +23,9 @@ InputCharacter = [^\ \t\r\n\f]
 Comment = ("!")[^(\r|\n|\r\n)]*
 
 Or = "OR"
+Tilde = "~"
+Minus = "-"
+Quote = "\""
 
 %state AFTER_DEFINE
 
@@ -30,7 +33,9 @@ Or = "OR"
 
 <YYINITIAL> {
     {Comment}           { yybegin(YYINITIAL); return GTypes.COMMENT; }
-    {Or}                { yybegin(YYINITIAL); return GTypes.OR; }
+    {Tilde}             { yybegin(YYINITIAL); return GTypes.TILDE_OP; }
+    {Minus}             { yybegin(YYINITIAL); return GTypes.MINUS_OP; }
+    {Quote}             { yybegin(YYINITIAL); return GTypes.QUOTE; }
     {InputCharacter}+   { yybegin(YYINITIAL); return GTypes.QUERY; }
     {AnySpace}+         { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
 }

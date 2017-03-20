@@ -14,7 +14,7 @@
 //public class GColorSettingsPage implements ColorSettingsPage {
 //
 //    private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[] {
-//            new AttributesDescriptor("Keyword", GSyntaxHighlighter.KEYWORD),
+//            new AttributesDescriptor("Keyword", GSyntaxHighlighter.OPERATOR),
 //            new AttributesDescriptor("Query", GSyntaxHighlighter.QUERY),
 //            new AttributesDescriptor("Comment", GSyntaxHighlighter.COMMENT)
 //    };

@@ -8,24 +8,18 @@ import com.sazanovich.nikita.gplugin.psi.impl.*;
 
 public interface GTypes {
 
-  IElementType AND_TERM = new GElementType("AND_TERM");
-  IElementType OR_TERM = new GElementType("OR_TERM");
   IElementType TERM = new GElementType("TERM");
 
   IElementType COMMENT = new GTokenType("COMMENT");
-  IElementType OR = new GTokenType("OR");
+  IElementType MINUS_OP = new GTokenType("MINUS_OP");
   IElementType QUERY = new GTokenType("query");
+  IElementType QUOTE = new GTokenType("QUOTE");
+  IElementType TILDE_OP = new GTokenType("TILDE_OP");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-       if (type == AND_TERM) {
-        return new GAndTermImpl(node);
-      }
-      else if (type == OR_TERM) {
-        return new GOrTermImpl(node);
-      }
-      else if (type == TERM) {
+       if (type == TERM) {
         return new GTermImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
