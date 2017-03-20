@@ -19,11 +19,12 @@ LineTerminator = \r|\n|\r\n
 WhiteSpace = [ \t]
 AnySpace = {LineTerminator} | {WhiteSpace} | [\f]
 
-InputCharacter = [^\ \t\r\n\f;]
+InputCharacter = [^\ \t\r\n\f;~\-\"|]
 Comment = ("!")[^(\r|\n|\r\n)]*
 
 Or = "OR"
 Semicolon = ";"
+Pipe = "|"
 Tilde = "~"
 Minus = "-"
 Quote = "\""
@@ -38,6 +39,8 @@ Quote = "\""
     {Quote}             { yybegin(YYINITIAL); return GTypes.QUOTE; }
     {Tilde}             { yybegin(YYINITIAL); return GTypes.TILDE_OP; }
     {Minus}             { yybegin(YYINITIAL); return GTypes.MINUS_OP; }
+    {Pipe}              { yybegin(YYINITIAL); return GTypes.PIPE_OP; }
+    {Or}                { yybegin(YYINITIAL); return GTypes.OR_OP; }
     {InputCharacter}+   { yybegin(YYINITIAL); return GTypes.QUERY; }
     {AnySpace}+         { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
 }

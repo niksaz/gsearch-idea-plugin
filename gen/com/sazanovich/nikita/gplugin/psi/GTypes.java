@@ -12,6 +12,8 @@ public interface GTypes {
 
   IElementType COMMENT = new GTokenType("COMMENT");
   IElementType MINUS_OP = new GTokenType("MINUS_OP");
+  IElementType OR_OP = new GTokenType("OR_OP");
+  IElementType PIPE_OP = new GTokenType("PIPE_OP");
   IElementType QUERY = new GTokenType("QUERY");
   IElementType QUOTE = new GTokenType("QUOTE");
   IElementType SEMICOLON = new GTokenType("SEMICOLON");

@@ -48,7 +48,8 @@ public class GSyntaxHighlighter extends SyntaxHighlighterBase {
     public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
         if (tokenType.equals(GTypes.SEMICOLON)) {
             return SEMICOLON_KEYS;
-        } else if (tokenType.equals(GTypes.TILDE_OP) || tokenType.equals(GTypes.MINUS_OP)) {
+        } else if (tokenType.equals(GTypes.TILDE_OP) || tokenType.equals(GTypes.MINUS_OP) ||
+                   tokenType.equals(GTypes.OR_OP) || tokenType.equals(GTypes.PIPE_OP))  {
             return OPERATOR_KEYS;
         } else if (tokenType.equals(GTypes.QUOTE)) {
             return QUOTE_KEYS;

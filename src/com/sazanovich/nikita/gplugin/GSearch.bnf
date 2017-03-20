@@ -21,8 +21,10 @@ private GTerm ::= term SEMICOLON
 
 term ::= primary_query *
 
-private primary_query ::= quote_query | sign_op primary_query | QUERY
+private primary_query ::= or_query | sign_query | QUERY
 
-private sign_op ::= TILDE_OP | MINUS_OP
+private sign_query ::= (TILDE_OP | MINUS_OP) primary_query
 
-private quote_query ::= QUOTE QUERY QUOTE {pin=1}
+private or_query ::= (OR_OP | PIPE_OP) primary_query
+
+private quote_query ::= QUOTE primary_query QUOTE {pin=1}
