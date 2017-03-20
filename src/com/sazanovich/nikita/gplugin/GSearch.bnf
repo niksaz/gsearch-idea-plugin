@@ -14,17 +14,25 @@
 }
 
 GSearch ::= item *
+private item ::= (COMMENT | GQuery)
+private GQuery ::= (GExpr | GTerm) SEMICOLON
 
-private item ::= (COMMENT | GTerm)
+GTerm ::= primary_query *
+private primary_query ::= quote_query | or_query | sign_query | QUERY | ignored_op
+sign_query ::= (TILDE_OP | MINUS_OP) primary_query
+or_query ::= (OR_OP | PIPE_OP) primary_query
+quote_query ::= QUOTE primary_query QUOTE {pin=1}
+ignored_op ::= FACT_OP | PLUS_OP | MULT_OP | DIV_OP
 
-private GTerm ::= term SEMICOLON
+GExpr ::= factor plus_expr *
+plus_expr ::= plus_op factor
+private plus_op ::= PLUS_OP | MINUS_OP
+private factor ::= primary mul_expr *
+mul_expr  ::= mul_op primary
+private mul_op ::= MULT_OP | DIV_OP
+private primary ::= primary_inner factorial_expr ?
+factorial_expr ::= FACT_OP
+private primary_inner ::= literal_expr | paren_expr
+paren_expr ::= LEFT_BRACKET GExpr RIGHT_BRACKET {pin=1}
+literal_expr ::= NUMBER | FLOAT
 
-term ::= primary_query *
-
-private primary_query ::= or_query | sign_query | QUERY
-
-private sign_query ::= (TILDE_OP | MINUS_OP) primary_query
-
-private or_query ::= (OR_OP | PIPE_OP) primary_query
-
-private quote_query ::= QUOTE primary_query QUOTE {pin=1}

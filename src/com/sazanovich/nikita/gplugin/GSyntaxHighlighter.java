@@ -10,8 +10,6 @@ import com.intellij.psi.tree.IElementType;
 import com.sazanovich.nikita.gplugin.psi.GTypes;
 import org.jetbrains.annotations.NotNull;
 
-import javax.xml.soap.Text;
-
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
 public class GSyntaxHighlighter extends SyntaxHighlighterBase {
@@ -46,14 +44,16 @@ public class GSyntaxHighlighter extends SyntaxHighlighterBase {
     @NotNull
     @Override
     public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
-        if (tokenType.equals(GTypes.SEMICOLON)) {
+        if (tokenType.equals(GTypes.G_EXPR)) {
+            return OPERATOR_KEYS;
+        } else if (tokenType.equals(GTypes.SEMICOLON)) {
             return SEMICOLON_KEYS;
         } else if (tokenType.equals(GTypes.TILDE_OP) || tokenType.equals(GTypes.MINUS_OP) ||
                    tokenType.equals(GTypes.OR_OP) || tokenType.equals(GTypes.PIPE_OP))  {
             return OPERATOR_KEYS;
         } else if (tokenType.equals(GTypes.QUOTE)) {
             return QUOTE_KEYS;
-        } else if (tokenType.equals(GTypes.TERM)) {
+        } else if (tokenType.equals(GTypes.G_TERM)) {
             return QUERY_KEYS;
         } else if (tokenType.equals(GTypes.COMMENT)) {
             return COMMENT_KEYS;
