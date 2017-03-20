@@ -15,10 +15,12 @@
 
 GSearch ::= item *
 private item ::= (COMMENT | GQuery)
-private GQuery ::= (GExpr | GTerm) SEMICOLON
+private GQuery ::= (GExpr | GPrefixTerm | GTerm) SEMICOLON
+
+private GPrefixTerm ::= DEFINE GTerm
 
 GTerm ::= primary_query *
-private primary_query ::= quote_query | or_query | sign_query | QUERY | ignored_op
+private primary_query ::= quote_query | or_query | sign_query | ignored_op | DEFINE | QUERY
 sign_query ::= (TILDE_OP | MINUS_OP) primary_query
 or_query ::= (OR_OP | PIPE_OP) primary_query
 quote_query ::= QUOTE primary_query QUOTE {pin=1}

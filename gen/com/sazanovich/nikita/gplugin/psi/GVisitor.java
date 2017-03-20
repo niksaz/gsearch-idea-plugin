@@ -11,10 +11,6 @@ public class GVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitGPrefixTerm(@NotNull GGPrefixTerm o) {
-    visitPsiElement(o);
-  }
-
   public void visitGTerm(@NotNull GGTerm o) {
     visitPsiElement(o);
   }

@@ -39,6 +39,8 @@ Quote = "\""
 Number = [0123456789]+
 Float = {Number}("."){Number}
 
+Define = "define:"
+
 %state AFTER_DEFINE
 
 %%
@@ -62,6 +64,8 @@ Float = {Number}("."){Number}
     {Float}             { yybegin(YYINITIAL); return GTypes.FLOAT; }
     {Number}            { yybegin(YYINITIAL); return GTypes.NUMBER; }
     {Quote}             { yybegin(YYINITIAL); return GTypes.QUOTE; }
+
+    {Define}            { yybegin(YYINITIAL); return GTypes.DEFINE; }
 
     {InputCharacter}+   { yybegin(YYINITIAL); return GTypes.QUERY; }
     {AnySpace}+         { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }

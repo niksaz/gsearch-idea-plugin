@@ -26,9 +26,6 @@ public class GParser implements PsiParser, LightPsiParser {
     if (t == G_EXPR) {
       r = GExpr(b, 0);
     }
-    else if (t == G_PREFIX_TERM) {
-      r = GPrefixTerm(b, 0);
-    }
     else if (t == G_TERM) {
       r = GTerm(b, 0);
     }
@@ -94,14 +91,15 @@ public class GParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "define:" GTerm
-  public static boolean GPrefixTerm(PsiBuilder b, int l) {
+  // DEFINE GTerm
+  static boolean GPrefixTerm(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "GPrefixTerm")) return false;
+    if (!nextTokenIs(b, DEFINE)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, G_PREFIX_TERM, "<g prefix term>");
-    r = consumeToken(b, "define:");
+    Marker m = enter_section_(b);
+    r = consumeToken(b, DEFINE);
     r = r && GTerm(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -355,7 +353,7 @@ public class GParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // quote_query | or_query | sign_query | QUERY | ignored_op
+  // quote_query | or_query | sign_query | ignored_op | DEFINE | QUERY
   static boolean primary_query(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "primary_query")) return false;
     boolean r;
@@ -363,8 +361,9 @@ public class GParser implements PsiParser, LightPsiParser {
     r = quote_query(b, l + 1);
     if (!r) r = or_query(b, l + 1);
     if (!r) r = sign_query(b, l + 1);
-    if (!r) r = consumeToken(b, QUERY);
     if (!r) r = ignored_op(b, l + 1);
+    if (!r) r = consumeToken(b, DEFINE);
+    if (!r) r = consumeToken(b, QUERY);
     exit_section_(b, m, null, r);
     return r;
   }

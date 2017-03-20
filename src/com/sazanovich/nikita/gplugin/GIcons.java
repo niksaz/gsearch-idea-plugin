@@ -6,5 +6,5 @@ import javax.swing.*;
 
 public class GIcons {
 
-    public static final Icon FILE_ICON = IconLoader.getIcon("/com/sazanovich/nikita/gplugin/icons/icon.png");
+    public static final Icon FILE_ICON = IconLoader.getIcon("/com/sazanovich/nikita/gplugin/icon.png");
 }

@@ -10,7 +10,6 @@ public interface GTypes {
 
   IElementType FACTORIAL_EXPR = new GElementType("FACTORIAL_EXPR");
   IElementType G_EXPR = new GElementType("G_EXPR");
-  IElementType G_PREFIX_TERM = new GElementType("G_PREFIX_TERM");
   IElementType G_TERM = new GElementType("G_TERM");
   IElementType IGNORED_OP = new GElementType("IGNORED_OP");
   IElementType LITERAL_EXPR = new GElementType("LITERAL_EXPR");
@@ -22,6 +21,7 @@ public interface GTypes {
   IElementType SIGN_QUERY = new GElementType("SIGN_QUERY");
 
   IElementType COMMENT = new GTokenType("COMMENT");
+  IElementType DEFINE = new GTokenType("DEFINE");
   IElementType DIV_OP = new GTokenType("DIV_OP");
   IElementType FACT_OP = new GTokenType("FACT_OP");
   IElementType FLOAT = new GTokenType("FLOAT");
@@ -46,9 +46,6 @@ public interface GTypes {
       }
       else if (type == G_EXPR) {
         return new GGExprImpl(node);
-      }
-      else if (type == G_PREFIX_TERM) {
-        return new GGPrefixTermImpl(node);
       }
       else if (type == G_TERM) {
         return new GGTermImpl(node);
