@@ -1,41 +1,41 @@
 <idea-plugin version="2">
-  <id>com.sazanovich.nikita.gplugin</id>
-  <name>Google Search Query</name>
-  <version>1.0</version>
-  <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+    <id>com.sazanovich.nikita.gplugin</id>
+    <name>Google Search Query</name>
+    <version>1.0</version>
+    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
 
-  <description><![CDATA[
+    <description><![CDATA[
       Enter short description for your plugin here.<br>
       <em>most HTML tags may be used</em>
     ]]></description>
 
-  <change-notes><![CDATA[
+    <change-notes><![CDATA[
       Add change notes here.<br>
       <em>most HTML tags may be used</em>
     ]]>
-  </change-notes>
+    </change-notes>
 
-  <idea-version since-build="145.0"/>
+    <idea-version since-build="145.0"/>
 
-  <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.lang</depends>
 
-  <extensions defaultExtensionNs="com.intellij">
-    <fileTypeFactory
-      implementation="com.sazanovich.nikita.gplugin.GFileTypeFactory" />
-    <lang.parserDefinition
-      language="Google Search Query Language"
-      implementationClass="com.sazanovich.nikita.gplugin.GParserDefinition" />
+    <extensions defaultExtensionNs="com.intellij">
+        <fileTypeFactory
+                implementation="com.sazanovich.nikita.gplugin.GFileTypeFactory"/>
+        <lang.parserDefinition
+                language="Google Search Query Language"
+                implementationClass="com.sazanovich.nikita.gplugin.GParserDefinition"/>
 
-    <lang.syntaxHighlighterFactory
-      language="Google Search Query Language"
-      implementationClass="com.sazanovich.nikita.gplugin.GSyntaxHighlighterFactory" />
-    <!---
-    <colorSettingsPage
-      implementation="com.sazanovich.nikita.gplugin.GColorSettingsPage" />
-      -->
-  </extensions>
+        <lang.syntaxHighlighterFactory
+                language="Google Search Query Language"
+                implementationClass="com.sazanovich.nikita.gplugin.GSyntaxHighlighterFactory"/>
+        <!--
+        <colorSettingsPage
+                implementation="com.sazanovich.nikita.gplugin.GColorSettingsPage" />
+        -->
+    </extensions>
 
-  <actions>
-  </actions>
+    <actions>
+    </actions>
 
 </idea-plugin>

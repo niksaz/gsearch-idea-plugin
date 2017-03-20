@@ -10,10 +10,14 @@ import com.intellij.psi.tree.IElementType;
 import com.sazanovich.nikita.gplugin.psi.GTypes;
 import org.jetbrains.annotations.NotNull;
 
+import javax.xml.soap.Text;
+
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
 public class GSyntaxHighlighter extends SyntaxHighlighterBase {
 
+    public static final TextAttributesKey SEMICOLON =
+            createTextAttributesKey("G_SEMICOLON", DefaultLanguageHighlighterColors.SEMICOLON);
     public static final TextAttributesKey OPERATOR =
             createTextAttributesKey("G_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
     public static final TextAttributesKey QUOTE =
@@ -25,6 +29,7 @@ public class GSyntaxHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey BAD_CHARACTER =
             createTextAttributesKey("G_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
 
+    private static final TextAttributesKey[] SEMICOLON_KEYS = new TextAttributesKey[]{SEMICOLON};
     private static final TextAttributesKey[] OPERATOR_KEYS = new TextAttributesKey[]{OPERATOR};
     private static final TextAttributesKey[] QUOTE_KEYS = new TextAttributesKey[]{QUOTE};
     private static final TextAttributesKey[] QUERY_KEYS = new TextAttributesKey[]{QUERY};
@@ -41,7 +46,9 @@ public class GSyntaxHighlighter extends SyntaxHighlighterBase {
     @NotNull
     @Override
     public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
-        if (tokenType.equals(GTypes.TILDE_OP) || tokenType.equals(GTypes.MINUS_OP)) {
+        if (tokenType.equals(GTypes.SEMICOLON)) {
+            return SEMICOLON_KEYS;
+        } else if (tokenType.equals(GTypes.TILDE_OP) || tokenType.equals(GTypes.MINUS_OP)) {
             return OPERATOR_KEYS;
         } else if (tokenType.equals(GTypes.QUOTE)) {
             return QUOTE_KEYS;
@@ -51,8 +58,7 @@ public class GSyntaxHighlighter extends SyntaxHighlighterBase {
             return COMMENT_KEYS;
         } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
             return BAD_CHARACTER_KEYS;
-        } else {
-            return EMPTY_KEYS;
         }
+        return EMPTY_KEYS;
     }
 }

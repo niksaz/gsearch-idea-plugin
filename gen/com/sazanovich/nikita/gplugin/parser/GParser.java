@@ -37,12 +37,12 @@ public class GParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // item_*
+  // item *
   static boolean GSearch(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "GSearch")) return false;
     int c = current_position_(b);
     while (true) {
-      if (!item_(b, l + 1)) break;
+      if (!item(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "GSearch", c)) break;
       c = current_position_(b);
     }
@@ -50,63 +50,92 @@ public class GParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // term | COMMENT
-  static boolean item_(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "item_")) return false;
+  // term SEMICOLON
+  static boolean GTerm(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "GTerm")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = term(b, l + 1);
-    if (!r) r = consumeToken(b, COMMENT);
+    r = r && consumeToken(b, SEMICOLON);
     exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
-  // TILDE_OP term | MINUS_OP term | QUOTE term QUOTE | query
-  public static boolean term(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "term")) return false;
+  // COMMENT | GTerm
+  static boolean item(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "item")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, TERM, "<term>");
-    r = term_0(b, l + 1);
-    if (!r) r = term_1(b, l + 1);
-    if (!r) r = term_2(b, l + 1);
-    if (!r) r = consumeToken(b, QUERY);
-    exit_section_(b, l, m, r, false, null);
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMENT);
+    if (!r) r = GTerm(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
-  // TILDE_OP term
-  private static boolean term_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "term_0")) return false;
+  /* ********************************************************** */
+  // quote_query | sign_op primary_query | QUERY
+  static boolean primary_query(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "primary_query")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = quote_query(b, l + 1);
+    if (!r) r = primary_query_1(b, l + 1);
+    if (!r) r = consumeToken(b, QUERY);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // sign_op primary_query
+  private static boolean primary_query_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "primary_query_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = sign_op(b, l + 1);
+    r = r && primary_query(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // QUOTE QUERY QUOTE
+  static boolean quote_query(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "quote_query")) return false;
+    if (!nextTokenIs(b, QUOTE)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_);
+    r = consumeTokens(b, 1, QUOTE, QUERY, QUOTE);
+    p = r; // pin = 1
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  /* ********************************************************** */
+  // TILDE_OP | MINUS_OP
+  static boolean sign_op(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "sign_op")) return false;
+    if (!nextTokenIs(b, "", MINUS_OP, TILDE_OP)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, TILDE_OP);
-    r = r && term(b, l + 1);
+    if (!r) r = consumeToken(b, MINUS_OP);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // MINUS_OP term
-  private static boolean term_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "term_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, MINUS_OP);
-    r = r && term(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // QUOTE term QUOTE
-  private static boolean term_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "term_2")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, QUOTE);
-    r = r && term(b, l + 1);
-    r = r && consumeToken(b, QUOTE);
-    exit_section_(b, m, null, r);
-    return r;
+  /* ********************************************************** */
+  // primary_query *
+  public static boolean term(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "term")) return false;
+    Marker m = enter_section_(b, l, _NONE_, TERM, "<term>");
+    int c = current_position_(b);
+    while (true) {
+      if (!primary_query(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "term", c)) break;
+      c = current_position_(b);
+    }
+    exit_section_(b, l, m, true, false, null);
+    return true;
   }
 
 }

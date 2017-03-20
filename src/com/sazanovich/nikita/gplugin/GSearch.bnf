@@ -11,15 +11,18 @@
     elementTypeHolderClass="com.sazanovich.nikita.gplugin.psi.GTypes"
     elementTypeClass="com.sazanovich.nikita.gplugin.psi.GElementType"
     tokenTypeClass="com.sazanovich.nikita.gplugin.psi.GTokenType"
-
-    tokens=[
-    ]
 }
 
-GSearch ::= item_*
+GSearch ::= item *
 
-private item_ ::= (term | COMMENT)
+private item ::= (COMMENT | GTerm)
 
-term ::= TILDE_OP term | MINUS_OP term | quote_phrase | query
+private GTerm ::= term SEMICOLON
 
-quote_phrase ::= QUOTE term QUOTE
+term ::= primary_query *
+
+private primary_query ::= quote_query | sign_op primary_query | QUERY
+
+private sign_op ::= TILDE_OP | MINUS_OP
+
+private quote_query ::= QUOTE QUERY QUOTE {pin=1}
